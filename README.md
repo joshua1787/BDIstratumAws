@@ -1,4 +1,4 @@
-# 🚀 Project Stratum: Cloud-Native Backend Deployment on AWS EKS 🚀
+# 🚀 Project Stratum: Cloud-Native Backend Deployment on AWS EKS
 
 A robust, scalable, and secure backend API for customer interactions, deployed on Amazon Elastic Kubernetes Service (EKS) using a comprehensive Infrastructure as Code (IaC) approach with Terraform and Helm.
 
@@ -21,11 +21,11 @@ Project Stratum is a FastAPI-based backend application designed to manage custom
 
 | Category | Technology | Description |
 | --- | --- | --- |
-| **Backend Application** |  | Python backend framework, ORM, and relational database. |
-| **Containerization** |  | Containerization platform and AWS's managed container registry. |
-| **Cloud Infrastructure** |  | Cloud provider, managed Kubernetes, managed database, secrets, and load balancing. |
-| **Infrastructure as Code** | Declarative IaC tool for provisioning and managing cloud resources. |  |
-| **Orchestration** |  | Container orchestration platform and its package manager for Kubernetes. |
+| **Backend Application** | FastAPI, SQLAlchemy, PostgreSQL | Python backend framework, ORM, and relational database. |
+| **Containerization** | Docker, AWS ECR | Containerization platform and AWS's managed container registry. |
+| **Cloud Infrastructure** | AWS, EKS, RDS, Secrets Manager, ALB | Cloud provider, managed Kubernetes, managed database, secrets, and load balancing. |
+| **Infrastructure as Code** | Terraform | Declarative IaC tool for provisioning and managing cloud resources. |
+| **Orchestration** | Kubernetes, Helm | Container orchestration platform and its package manager for Kubernetes. |
 | **Security Concepts** | IAM Roles for Service Accounts (IRSA) | Secure method for Kubernetes pods to access AWS services. |
 
 ## 🏗️ Architecture Overview
