@@ -1,0 +1,9 @@
+# ---
+# Chart.yaml (located at: ~/Stratum_JD_AWS/helm-charts/stratum-backend-chart/Chart.yaml)
+# Defines metadata about your Helm chart.
+# ---
+apiVersion: v2
+name: stratum-backend-chart
+description: A Helm chart for deploying the Stratum Backend FastAPI application to Kubernetes.
+version: 0.1.0 # The chart version
+appVersion: "1.0.0" # The version of the application being deployed

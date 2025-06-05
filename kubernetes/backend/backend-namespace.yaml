@@ -1,0 +1,5 @@
+# File: ~/Stratum_JD_AWS/kubernetes/backend/backend-namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: stratum-ns

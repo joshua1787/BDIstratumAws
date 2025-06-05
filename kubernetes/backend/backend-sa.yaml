@@ -1,0 +1,11 @@
+# File: ~/Stratum_JD_AWS/kubernetes/backend/backend-sa.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: stratum-backend-sa
+  namespace: stratum-ns
+  annotations:
+    # This ARN will be created by Terraform in the next step.
+    # It will allow your pods to assume an IAM role for AWS service access (e.g., Secrets Manager).
+    # Placeholder for now: Update this with the actual ARN from your Terraform output later.
+    eks.amazonaws.com/role-arn: "arn:aws:iam::842346213197:role/stratum-dev-backend-sa-role-20250605054223693000000001" # REPLACE THIS PLACEHOLDER

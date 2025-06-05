@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stratum-backend-deployment
+  namespace: stratum-ns
+  labels:
+    app: stratum-backend
+    {{- include "stratum-backend-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: stratum-backend
+  template:
+    metadata:
+      labels:
+        app: stratum-backend
+        {{- include "stratum-backend-chart.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      containers:
+      - name: stratum-backend-container
+        image: "{{ template "stratum-backend-chart.image" . }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.targetPort }}
+        env:
+        - name: DB_CREDENTIALS_SECRET_ARN
+          value: {{ .Values.env.dbCredentialsSecretArn | quote }}
+        - name: AWS_REGION
+          value: {{ .Values.env.awsRegion | quote }}
+        - name: DB_MASTER_USERNAME_IN_SECRET_KEY
+          value: {{ .Values.env.dbMasterUsernameInSecretKey | quote }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.targetPort }}
+          initialDelaySeconds: {{ .Values.probes.readinessInitialDelaySeconds }}
+          periodSeconds: {{ .Values.probes.readinessPeriodSeconds }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.targetPort }}
+          initialDelaySeconds: {{ .Values.probes.livenessInitialDelaySeconds }}
+          periodSeconds: {{ .Values.probes.livenessPeriodSeconds }}

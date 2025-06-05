@@ -1,0 +1,62 @@
+replicaCount: 2
+
+image:
+  # IMPORTANT: Replace with your ECR repository URL from 'terraform output ecr_repository_url_backend'
+  # Example: 842346213197.dkr.ecr.us-east-1.amazonaws.com/stratum-backend
+  repository: YOUR_ECR_REPOSITORY_URL_HERE
+  # IMPORTANT: Replace with your Docker image tag (e.g., a timestamp like 20250605123456 or 'latest')
+  tag: YOUR_IMAGE_TAG
+  pullPolicy: Always # Ensures the latest image is always pulled
+
+serviceAccount:
+  create: true # Set to false if you manage ServiceAccount outside Helm
+  name: stratum-backend-sa
+  # IMPORTANT: Replace with the actual ARN from 'terraform output backend_service_account_role_arn'
+  # Example: eks.amazonaws.com/role-arn: "arn:aws:iam::123456789012:role/stratum-dev-backend-sa-role-XXXXXXXXXXXXX"
+  annotations:
+    eks.amazonaws.com/role-arn: "YOUR_BACKEND_SA_ROLE_ARN"
+
+env:
+  # IMPORTANT: Replace with the actual ARN of your RDS Secrets Manager secret.
+  # Get this from your AWS Secrets Manager console (look for 'stratum/rds/credentials-XXXXXX')
+  # or from your Terraform output if you configured it as an output.
+  # Example: arn:aws:secretsmanager:us-east-1:123456789012:secret:stratum/rds/credentials-AbCDeF
+  dbCredentialsSecretArn: "arn:aws:secretsmanager:YOUR_AWS_REGION:YOUR_AWS_ACCOUNT_ID:secret:stratum/rds/credentials-XXXXXX"
+  # IMPORTANT: Replace with your AWS region (e.g., us-east-1)
+  awsRegion: "YOUR_AWS_REGION"
+  dbMasterUsernameInSecretKey: "username"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: stratum-backend
+    # Optional: Add HTTPS support with ACM certificate.
+    # If you want HTTPS, uncomment the lines below and replace with your ACM certificate ARN.
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    # alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    # alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:YOUR_AWS_REGION:YOUR_AWS_ACCOUNT_ID:certificate/YOUR_CERT_ID"
+  paths:
+    - path: /
+      pathType: Prefix
+
+resources:
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+
+probes:
+  readinessInitialDelaySeconds: 15
+  readinessPeriodSeconds: 10
+  livenessInitialDelaySeconds: 30
+  livenessPeriodSeconds: 20

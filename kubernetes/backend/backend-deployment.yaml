@@ -1,0 +1,54 @@
+# File: ~/Stratum_JD_AWS/kubernetes/backend/backend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stratum-backend-deployment
+  namespace: stratum-ns
+  labels:
+    app: stratum-backend
+spec:
+  replicas: 2 # You can adjust the number of desired replicas
+  selector:
+    matchLabels:
+      app: stratum-backend
+  template:
+    metadata:
+      labels:
+        app: stratum-backend
+    spec:
+      serviceAccountName: stratum-backend-sa # This links to the ServiceAccount defined below
+      containers:
+      - name: stratum-backend-container
+        # This is the ECR URL where your image was pushed.
+        image: 842346213197.dkr.ecr.us-east-1.amazonaws.com/stratum-backend:latest # Ensure this matches your ECR repository and image tag
+        imagePullPolicy: Always # Ensures the latest image is pulled on each deployment
+        # The container port should match the port your FastAPI application listens on.
+        # Adjust this if your application runs on a different port.
+        ports:
+        - containerPort: 80 # Your FastAPI application runs on port 80 inside the container
+        env:
+        # These values allow your application to connect to the database.
+        # Ensure the SECRET_ARN is correct based on your Terraform output.
+        - name: DB_CREDENTIALS_SECRET_ARN
+          value: "arn:aws:secretsmanager:us-east-1:842346213197:secret:stratum/rds/credentials-XXXXXX" # IMPORTANT: Replace XXXXXX with the actual suffix from your RDS Secret ARN output in Terraform
+        - name: AWS_REGION
+          value: "us-east-1" # Your AWS region
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        readinessProbe: # Checks if the container is ready to serve traffic
+          httpGet:
+            path: / # Adjust this path if your health check endpoint is different
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        livenessProbe: # Checks if the container is still running and healthy
+          httpGet:
+            path: / # Adjust this path if your health check endpoint is different
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 20

@@ -1,0 +1,14 @@
+# File: ~/Stratum_JD_AWS/kubernetes/backend/backend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: stratum-backend-service
+  namespace: stratum-ns
+spec:
+  selector:
+    app: stratum-backend # Matches the label of your backend deployment pods
+  ports:
+    - protocol: TCP
+      port: 80      # Port on the Service
+      targetPort: 80 # Port your container is listening on
+  type: ClusterIP    # Internal service, accessible only within the cluster

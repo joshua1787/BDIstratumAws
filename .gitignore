@@ -1,0 +1,58 @@
+# .gitignore for Project Stratum
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+crash.log
+.terraformrc
+override.tf
+override.tf.json
+*-override.tf
+*-override.tf.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.egg-info/
+.pytest_cache/
+.coverage
+.mypy_cache/
+.vscode/
+
+# Docker
+*.dockerignore
+*.env
+.env*
+!backend/.env # If you specifically track backend/.env, adjust this
+.docker/
+docker-compose.override.yaml # If used locally
+docker-compose.local.yaml    # If used locally
+
+# IDEs
+.idea/ # IntelliJ IDEA
+.vscode/ # VS Code (often included in Python section but good to be explicit)
+*.swp # Vim swap files
+*.swo # Vim swap files
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+tmp/
+
+# Kubernetes config (local)
+.kube/config # Your kubectl config file, should NEVER be in repo
+
+# Local artifacts from build/deployment
+*.db # e.g., local SQLite db files
