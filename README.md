@@ -1,12 +1,12 @@
-# 🚀 Project Stratum: Cloud-Native Backend Deployment on AWS EKS
+#  Project Stratum: Cloud-Native Backend Deployment on AWS EKS
 
 A robust, scalable, and secure backend API for customer interactions, deployed on Amazon Elastic Kubernetes Service (EKS) using a comprehensive Infrastructure as Code (IaC) approach with Terraform and Helm.
 
-## ✨ Project Overview
+##  Project Overview
 
 Project Stratum is a FastAPI-based backend application designed to manage customer interactions. This repository showcases a full-stack cloud-native deployment, emphasizing automation, scalability, and secure operational practices. It's built to demonstrate end-to-end deployment capabilities from application code to cloud infrastructure.
 
-## 🌟 Key Features
+##  Key Features
 
 - **RESTful API:** Provides standard CRUD operations for `CustomerInteraction` records.
 - **Containerized Application:** Packaged with Docker for portability and consistency across environments.
@@ -17,7 +17,7 @@ Project Stratum is a FastAPI-based backend application designed to manage custom
 - **External Access:** Exposed via an AWS Application Load Balancer (ALB) provisioned through Kubernetes Ingress.
 - **Deployment Automation:** Packaged as a Helm chart for streamlined Kubernetes deployments and lifecycle management.
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 | Category | Technology | Description |
 | --- | --- | --- |
@@ -28,7 +28,7 @@ Project Stratum is a FastAPI-based backend application designed to manage custom
 | **Orchestration** | Kubernetes, Helm | Container orchestration platform and its package manager for Kubernetes. |
 | **Security Concepts** | IAM Roles for Service Accounts (IRSA) | Secure method for Kubernetes pods to access AWS services. |
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 
 The project is deployed on AWS and follows a modern cloud-native architecture:
 
@@ -66,7 +66,7 @@ graph TD
 
 ```
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 Stratum_JD_AWS/
@@ -101,7 +101,7 @@ Stratum_JD_AWS/
 
 ```
 
-## 🚀 Setup and Deployment Guide
+##  Setup and Deployment Guide
 
 Follow these steps precisely to deploy the entire stack to your AWS account.
 
